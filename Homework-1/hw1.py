@@ -4,38 +4,15 @@ import matplotlib.pyplot as plt
 # matplotlib for plots, numpy for arrays, scipy for fitting
 
 def main():
-
     problem4()
-    
     problem5()
-
-    S = [995]
-    I = [5]
-    R = [0]
-    a  = 7 / 4975
-    time = [0]
-    positive = 0
-    j = 0
-    while j < 100 and positive == 0:
-        if S[j] - a * S[j] * I[j] < 0 or I[j] - 0.6 * I[j] + a * I[j] * S[j] < 0:
-            positive = 1 
-        else:
-            S.append(S[j] - a * S[j] * I[j])
-            I.append(I[j] - 0.6 * I[j] + a * I[j] * S[j])
-            R.append(R[j] + 0.6 * I[j])
-            time.append(j + 1)
-            j = j + 1
-    plt.plot(time, S, 'b-', label='S')
-    plt.plot(time, I, 'r-', label='I')
-    plt.plot(time, R, 'g-', label='R')
-    plt.legend(loc = 'best')
-    plt.show()
 
 def problem4():
     # The number of years to repeat the model
     N = 5
     # starting number of workers working at the power plant
     workers = [4000]
+    # start time at 1 just so it starts at 1 on the plot instead of 0
     time = [1]
 
     for i in range(N):
@@ -68,7 +45,30 @@ def problem4():
     plt.show()
 
 def problem5():
-    print("yeah")
+    # for an entire population of 6000 people
+    N = 6000
+    # number of susceptible people, recovered people, and infected people
+    S, R, I = [5090], [0], [10]
+    # recovery percent and interaction coefficient
+    a, b = 0.25, 5 / 50900
+    # the number of weeks
+    week = [0]
+
+    j = 0
+    while j < 100:
+        S.append(S[j] - b * S[j] * I[j])
+        I.append(I[j] + b * S[j] * I[j] - a * I[j])
+        R.append(R[j] + a * I[j])
+        week.append(j + 1)
+        j += 1
+    
+    plt.plot(week, S, color = 'blue', label = 'Susceptible')
+    plt.plot(week, I, color = 'red', label = 'Infected')
+    plt.plot(week, R, color = 'green', label = 'Recovered')
+    plt.legend(loc = 'best')
+    plt.ylabel("Population")
+    plt.xlabel("Weeks Passed")
+    plt.show()
 
 if __name__ == '__main__':
     main()
