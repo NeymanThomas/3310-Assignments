@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 def main():
-    problem2()
+    #problem2()
+    problem4()
 
 def problem2():
     x = np.array([1, 2, 3, 4, 5, 6, 7, 8])
@@ -16,12 +17,12 @@ def problem2():
 def plyFit2(x, y):
     plt.scatter(x, y)
     popt, pcov = curve_fit(second_degree_poly, x, y)
+    c = x
     x = np.linspace(1, 8, 1000)
     plt.plot(x, second_degree_poly(x, *popt), 'r-')
     plt.title('Second Degree')
     plt.show()
     plt.figure()
-    c = np.array([1, 2, 3, 4, 5, 6, 7, 8])
     print("===Second Degree Polynomial===")
     for i in range(len(popt)):
         print("Coef: {} = {}".format(i+1, popt[i]))
@@ -34,12 +35,12 @@ def plyFit2(x, y):
 def PlyFit3(x, y):
     plt.scatter(x, y)
     popt, pcov = curve_fit(third_degree_poly, x, y)
+    c = x
     x = np.linspace(1, 8, 1000)
     plt.plot(x, third_degree_poly(x, *popt), 'g-')
     plt.title('Third Degree')
     plt.show()
     plt.figure()
-    c = np.array([1, 2, 3, 4, 5, 6, 7, 8])
     print("===Third Degree Polynomial===")
     for i in range(len(popt)):
         print("Coef: {} = {}".format(i+1, popt[i]))
@@ -51,12 +52,12 @@ def PlyFit3(x, y):
 def PlyFit4(x, y):
     plt.scatter(x, y)
     popt, pcov = curve_fit(fourth_degree_poly, x, y)
+    c = x
     x = np.linspace(1, 8, 1000)
     plt.plot(x, fourth_degree_poly(x, *popt), 'b-')
     plt.title('Fourth Degree')
     plt.show()
     plt.figure()
-    c = np.array([1, 2, 3, 4, 5, 6, 7, 8])
     print("===Fourth Degree Polynomial===")
     for i in range(len(popt)):
         print("Coef: {} = {}".format(i+1, popt[i]))
@@ -68,12 +69,12 @@ def PlyFit4(x, y):
 def PlyFit5(x, y):
     plt.scatter(x, y)
     popt, pcov = curve_fit(fifth_degree_poly, x, y)
+    c = x
     x = np.linspace(1, 8, 1000)
     plt.plot(x, fifth_degree_poly(x, *popt), 'purple')
     plt.title('Fifth Degree')
     plt.show()
     plt.figure()
-    c = np.array([1, 2, 3, 4, 5, 6, 7, 8])
     print("===Fifth Degree Polynomial===")
     for i in range(len(popt)):
         print("Coef: {} = {}".format(i+1, popt[i]))
@@ -93,6 +94,31 @@ def fourth_degree_poly(x, a, b, c, d, e):
 
 def fifth_degree_poly(x, a, b, c, d, e, f):
     return a*x**5+b*x**4+c*x**3+d*x**2+e*x+f
+
+def problem4():
+    # components ABC are series
+    A = 0.98
+    B = 0.97
+    C = 0.96
+    # components DE are parallel
+    D = 0.95
+    E = 0.94
+    # components FG are parallel
+    F = 0.93
+    G = 0.92
+
+    # first compute the parallel components
+    par_1 = 1 - ((1 - D) * (1 - E))
+    par_2 = 1 - ((1 - F) * (1 - G))
+    print("D and E reliability: {:.3f}%\tF and G reliability: {:.3f}%".format(par_1, par_2))
+
+    # compute the whole system with the series components
+    complete_system = A * B * C * par_1 * par_2
+    print("System reliability without component H: {:.3f}%".format(complete_system))
+
+    # Now compute the mystery component H
+    H = 0.8 / complete_system
+    print("The reliability of component H must be {:.3f}%".format(H))
 
 if __name__ == '__main__':
     main()
