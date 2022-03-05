@@ -1,10 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+import random as rnd
 
 def main():
-    #problem2()
+    problem2()
     problem4()
+    problem5()
 
 def problem2():
     x = np.array([1, 2, 3, 4, 5, 6, 7, 8])
@@ -119,6 +121,50 @@ def problem4():
     # Now compute the mystery component H
     H = 0.8 / complete_system
     print("The reliability of component H must be {:.3f}%".format(H))
+
+def problem5():
+    # this is the monty hall problem. The statistics for the problem basically
+    # come down to if you switch you have a 2/3 chance of winning and if you
+    # stay with your original guess you have a 1/3 chance of winning. We know
+    # if contestants 1 - 5 are selected it is a 1/3 chance the prize was chosen.
+    # if contestant 6 was chosen, the chance is 2/3.
+
+    # Constant variable for number of simulations so if you want to change the
+    # number of times it runs, just change this one variable
+    SIM_NUM = 1000
+    attempts = []
+    results = []
+    prize_counter = 0
+
+    # the 2's and 1's being appended to the list act as the ratio of the chance
+    # so 2 means 2 out of 3 chance and 1 means 1 out of 3 chance
+    for i in range(SIM_NUM):
+        if rnd.randint(1, 6) == 6:
+            attempts.append(2)
+        else:
+            attempts.append(1)
+    
+    # So we randomly make a number from 1 to 3. This is equivalent to choosing
+    # one of the 3 doors to have the prize. We then see if the randomly generated
+    # integer is greater than the value at the attempt index. 2 and 3 will be greater
+    # than 1 66% of the time, which is the 1/3 chance. The other option 2 will be 
+    # greater than the random integer only 33% of the time, which is the 2/3 chance.
+    # So finally based on if the correct door was chosen or not, we assign a 
+    # Binary true or false to a list of results 
+    for j in attempts:
+        if rnd.randint(1, 3) > j:
+            results.append(False)
+        else:
+            results.append(True)
+    
+    # count up all the correct guesses
+    for r in results:
+        if r == True:
+            prize_counter += 1
+
+    final_odds = prize_counter / SIM_NUM
+    print("The final odds are {}".format(final_odds))
+
 
 if __name__ == '__main__':
     main()
