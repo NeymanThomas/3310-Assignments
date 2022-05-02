@@ -1,3 +1,7 @@
+# Thomas Neyman
+# MATH 3310
+# May 2 2022
+
 # python -m pip install nashpy
 # https://nashpy.readthedocs.io/en/stable/tutorial/index.html#installing-nashpy
 import nashpy as nash
@@ -185,7 +189,7 @@ def problem_2():
     c[n] = -1
     res = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq,
     bounds=(0,None),method='revised simplex')
-    print((res.x[:-1], -res.fun))
+    print((res.x[:-1], -res.fun), end='\n\n')
 
 
 """
